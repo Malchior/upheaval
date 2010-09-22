@@ -30,7 +30,7 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-    var Builder = function () {
+    return util.extend(sys, 'builder', new function () {
         "use strict";
         var self = this,
             forEach = util.forEach,
@@ -116,6 +116,5 @@
                 return self.insert(target, frag, callback);
             }(repeat));
         };
-    };
-    return util.extend(api, 'Builder', new Builder());
+    });
 }(window));
