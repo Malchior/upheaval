@@ -1,4 +1,5 @@
 V ?= 1
+OPT_LEVEL ?= 1
 
 SRC_DIR = src
 BUILD_DIR = build
@@ -8,7 +9,7 @@ DIST_DIR = ${PREFIX}/dist
 
 #RHINO ?= java -jar ${BUILD_DIR}/js-1.7R2.jar
 
-CLOSURE_COMPILER = ${BUILD_DIR}/google-compiler-20100917.jar
+CLOSURE_COMPILER = ${BUILD_DIR}/closure-compiler-20100917.jar
 
 MINIFY ?= java -jar ${CLOSURE_COMPILER}
 
@@ -45,20 +46,22 @@ VER = sed s/@VERSION/${UPHEAVAL_VERSION}/
 all: upheaval min
 	@@echo "Upheaval build complete."
 
-${DIST_DIR}
+${DIST_DIR}:
 	@@mkdir -p ${DIST_DIR}
 
-ifeq ($(strip $(V)),0)
-verbose = --quiet
-else ifeq($(strip $(V)),1)
-verbose =
+ifeq ($(strip $(OPT_LEVEL)),0)
+comp_level = WHITESPACE_ONLY
+else ifeq ($(strip $(OPT_LEVEL)),1)
+comp_level = SIMPLE_OPTIMIZATIONS
+else ifeq ($(strip $(OPT_LEVEL)),2)
+comp_level = ADVANCED_OPTIMIZATIONS
 else
-verbose = --verbose
+comp_level = SIMPLE_OPTIMIZATIONS
 endif
 
 upheaval: ${UPHEAVAL}
 
-${UPEHAVAL}: ${ALL_FILES} ${DIST_DIR}
+${UPHEAVAL}: ${ALL_FILES} ${DIST_DIR}
 	@@echo "Building" ${UPHEAVAL}
 	
 	@@cat ${ALL_FILES} | ${VER} > ${UPHEAVAL}
@@ -68,10 +71,13 @@ min: ${UPHEAVAL_MIN}
 ${UPHEAVAL_MIN}: ${UPHEAVAL}
 	@@echo "Building" ${UPHEAVAL_MIN}
 	
-	@@${MINIFY} --js ${UPHEAVAL} --warning_level QUIET --js_output_file ${UPHEAVAL_MIN}
+	@@${MINIFY} --js ${UPHEAVAL}\
+	--warning_level QUIET\
+	--compilation_level $(strip ${comp_level})
+	--js_output_file ${UPHEAVAL_MIN}
 
 clean:
 	@@echo "Removing dist dir:" ${DIST_DIR}
 	@@rm -rf ${DIST_DIR}
 
-.PHONY all upheaval min clean
+.PHONY: all upheaval min clean
