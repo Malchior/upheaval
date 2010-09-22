@@ -1,4 +1,4 @@
-V ?= 1
+#V ?= 1
 OPT_LEVEL ?= 1
 
 SRC_DIR = src
@@ -17,14 +17,35 @@ DEPS_DIR = deps
 DEPS_FILES = ${DEPS_DIR}/jquery.js
 
 SYS_DIR = ${SRC_DIR}/sys
-SYS_FILES = ${SYS_DIR}/graphics.js\
-	${SYS_DIR}/audio.js\
-	${SYS_DIR}/io.js\
-	${SYS_DIR}/conf.js\
-	${SYS_DIR}/time.js
+
+SYS_AUDIO_DIR = ${SYS_DIR}/audio
+SYS_AUDIO_FILES = ${SYS_AUDIO_DIR}/audio.js
+
+SYS_CONF_DIR = ${SYS_DIR}/conf
+SYS_CONF_FILES = ${SYS_CONF_DIR}/conf.js
+
+SYS_GRAPHICS_DIR = ${SYS_DIR}/graphics
+SYS_GRAPHICS_FILES = ${SYS_GRAPHICS_DIR}/builder.js
+
+SYS_IO_DIR = ${SYS_DIR}/io
+SYS_IO_FILES = ${SYS_IO_DIR}/ajax.js
+
+SYS_TIME_DIR = ${SYS_DIR}/time
+SYS_TIME_FILES = ${SYS_TIME_DIR}/time.js
+
+SYS_FILES = ${SYS_AUDIO_FILES}\
+	${SYS_CONF_FILES}\
+	${SYS_GRAPHICS_FILES}\
+	${SYS_IO_FILES}\
+	${SYS_TIME_FILES}
 
 ENGINE_DIR = ${SRC_DIR}/engine
-ENGINE_FILES = ${ENGINE_DIR}/render.js
+
+SUPPORT_DIR = ${ENGNIE_DIR}/support
+SUPPORT_FILES = ${SUPPORT_DIR}/physics.js
+
+ENGINE_FILES = ${SUPPORT_FILES}\
+	${ENGINE_DIR}/render.js
 
 API_DIR = ${SRC_DIR}/api
 API_FILES = ${API_DIR}/core.js
@@ -44,9 +65,10 @@ UPHEAVAL_VERSION = $(shell cat VERSION)
 VER = sed s/@VERSION/${UPHEAVAL_VERSION}/
 
 all: upheaval min
-	@@echo "Upheaval build complete."
+	@@echo "Upheaval build and minification complete."
 
 ${DIST_DIR}:
+	@@echo "Creating" ${DIST_DIR}
 	@@mkdir -p ${DIST_DIR}
 
 ifeq ($(strip $(OPT_LEVEL)),0)
@@ -63,18 +85,19 @@ upheaval: ${UPHEAVAL}
 
 ${UPHEAVAL}: ${ALL_FILES} ${DIST_DIR}
 	@@echo "Building" ${UPHEAVAL}
-	
 	@@cat ${ALL_FILES} | ${VER} > ${UPHEAVAL}
+	@@echo "Done."
 
 min: ${UPHEAVAL_MIN}
 
 ${UPHEAVAL_MIN}: ${UPHEAVAL}
 	@@echo "Building" ${UPHEAVAL_MIN}
-	
+	@@echo "Optimization level:" ${comp_level}
 	@@${MINIFY} --js ${UPHEAVAL}\
 	--warning_level QUIET\
-	--compilation_level $(strip ${comp_level})
+	--compilation_level $(strip ${comp_level})\
 	--js_output_file ${UPHEAVAL_MIN}
+	@@echo "Done."
 
 clean:
 	@@echo "Removing dist dir:" ${DIST_DIR}
