@@ -14,9 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-(function (window) {
+(function (window, undefined) {
 "use strict";
-var util = {
+var meta = {
+    'version': @VERSION
+},
+util = {
     cloneObject : (typeof Object.create === 'function') ?
         Object.create :
         function (o) {
@@ -33,9 +36,9 @@ var util = {
                 action(array[i]);
             }
         },
-    keys : (typeof Object.keys === 'function') ?
+    keys : (typeof Object.getOwnPropertyNames === 'function') ?
         function (o) {
-            return Object.keys(o);
+            return Object.getOwnPropertyNames(o);
         } :
         function (o) {
             var key, accumulator = [];
@@ -49,4 +52,10 @@ var util = {
     extend : function (target, name, fn) {
         return (target[name] = fn);
     }
+},
+ModuleProto = new function () {
+    var self = this;
+    this.dir = function () {
+        return util.keys(self);
+    };
 };

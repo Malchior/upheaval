@@ -1,5 +1,5 @@
 #V ?= 1
-OPT_LEVEL ?= 1
+OPT_LEVEL ?= 2
 
 SRC_DIR = src
 BUILD_DIR = build
@@ -41,7 +41,7 @@ SYS_FILES = ${SYS_AUDIO_FILES}\
 
 ENGINE_DIR = ${SRC_DIR}/engine
 
-SUPPORT_DIR = ${ENGNIE_DIR}/support
+SUPPORT_DIR = ${ENGINE_DIR}/support
 SUPPORT_FILES = ${SUPPORT_DIR}/physics.js
 
 ENGINE_FILES = ${SUPPORT_FILES}\
@@ -93,9 +93,9 @@ min: ${UPHEAVAL_MIN}
 ${UPHEAVAL_MIN}: ${UPHEAVAL}
 	@@echo "Building" ${UPHEAVAL_MIN}
 	@@echo "Optimization level:" ${comp_level}
-	@@${MINIFY} --js ${UPHEAVAL}\
-	--warning_level QUIET\
-	--compilation_level $(strip ${comp_level})\
+	@@${MINIFY} --js ${UPHEAVAL} \
+	--warning_level QUIET \
+	--compilation_level $(strip ${comp_level}) \
 	--js_output_file ${UPHEAVAL_MIN}
 	@@echo "Done."
 
