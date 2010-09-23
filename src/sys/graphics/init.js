@@ -1,1 +1,1 @@
-sys.graphics = util.cloneObject(ModuleProto);
+sys.graphics = new ModuleProto();

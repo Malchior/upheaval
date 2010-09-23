@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-(function (window, $, undefined) {
+(function (window, undefined) {
 "use strict";
-var meta = {
+var document = window.document,
+meta = {
     'version': '@VERSION'
 },
 util = {
@@ -53,8 +54,9 @@ util = {
         return (target[name] = fn);
     }
 },
-ModuleProto = new function () {
+ModuleProto = function () {
     var self = this;
+    this.self = this;
     this.dir = function () {
         return util.keys(self);
     };

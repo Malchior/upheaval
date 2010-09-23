@@ -1,1 +1,1 @@
-sys.audio = util.cloneObject(ModuleProto);
+sys.audio = new ModuleProto();

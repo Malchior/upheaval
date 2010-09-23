@@ -1,10 +1,10 @@
-#V ?= 1
+V ?= 0
 OPT_LEVEL ?= 2
 
 SRC_DIR = src
 BUILD_DIR = build
 
-PREFIX = .
+PREFIX ?= .
 DIST_DIR = ${PREFIX}/dist
 
 #RHINO ?= java -jar ${BUILD_DIR}/js-1.7R2.jar
@@ -14,7 +14,7 @@ CLOSURE_COMPILER = ${BUILD_DIR}/closure-compiler-20100917.jar
 MINIFY ?= java -jar ${CLOSURE_COMPILER}
 
 DEPS_DIR = deps
-DEPS_FILES = ${DEPS_DIR}/jquery.js
+DEPS_FILES =
 
 SYS_DIR = ${SRC_DIR}/sys
 
@@ -28,14 +28,12 @@ SYS_GRAPHICS_DIR = ${SYS_DIR}/graphics
 SYS_GRAPHICS_FILES = ${SYS_GRAPHICS_DIR}/init.js\
 	${SYS_GRAPHICS_DIR}/builder.js
 
-SYS_IO_DIR = ${SYS_DIR}/io
-SYS_IO_FILES = ${SYS_IO_DIR}/init.js\
-	${SYS_IO_DIR}/ajax.js
-
 SYS_TIME_DIR = ${SYS_DIR}/time
-SYS_TIME_FILES = ${SYS_TIME_DIR}/init.js
+SYS_TIME_FILES = ${SYS_TIME_DIR}/init.js\
+	${SYS_TIME_DIR}/timeSince.js
 
-SYS_FILES = ${SYS_DIR}/init.js\
+SYS_FILES = ${SYS_DIR}/jquery.js\
+	${SYS_DIR}/init.js\
 	${SYS_AUDIO_FILES}\
 	${SYS_CONF_FILES}\
 	${SYS_GRAPHICS_FILES}\
@@ -69,13 +67,6 @@ UPHEAVAL_MIN = ${DIST_DIR}/upheaval.min.js
 UPHEAVAL_VERSION = $(shell cat VERSION)
 VER = sed s/@VERSION/${UPHEAVAL_VERSION}/
 
-all: upheaval min
-	@@echo "Upheaval build and minification complete."
-
-${DIST_DIR}:
-	@@echo "Creating" ${DIST_DIR}
-	@@mkdir -p ${DIST_DIR}
-
 ifeq ($(strip $(OPT_LEVEL)),0)
 comp_level = WHITESPACE_ONLY
 else ifeq ($(strip $(OPT_LEVEL)),1)
@@ -85,6 +76,23 @@ comp_level = ADVANCED_OPTIMIZATIONS
 else
 comp_level = SIMPLE_OPTIMIZATIONS
 endif
+
+ifeq ($(strip $(V)),0)
+warn_level = QUIET
+else ifeq ($(strip $(V)),1)
+warn_level = DEFAULT
+else ifeq ($(strip $(V)),2)
+warn_level = VERBOSE
+else
+warn_level = DEFAULT
+endif
+
+all: upheaval min
+	@@echo "Upheaval build and minification complete."
+
+${DIST_DIR}:
+	@@echo "Creating" ${DIST_DIR}
+	@@mkdir -p ${DIST_DIR}
 
 upheaval: ${UPHEAVAL}
 
@@ -99,7 +107,7 @@ ${UPHEAVAL_MIN}: ${UPHEAVAL}
 	@@echo "Building" ${UPHEAVAL_MIN}
 	@@echo "Optimization level:" ${comp_level}
 	@@${MINIFY} --js ${UPHEAVAL} \
-	--warning_level QUIET \
+	--warning_level $(strip ${warn_level}) \
 	--compilation_level $(strip ${comp_level}) \
 	--js_output_file ${UPHEAVAL_MIN}
 	@@echo "Done."	

@@ -1,1 +1,1 @@
-sys.conf = util.cloneObject(ModuleProto);
+sys.conf = new ModuleProto();
