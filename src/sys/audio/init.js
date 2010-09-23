@@ -1,1 +1,1 @@
-var sys.audio = util.cloneObject(ModuleProto);
+sys.audio = util.cloneObject(ModuleProto);

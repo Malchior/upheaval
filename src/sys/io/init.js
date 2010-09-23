@@ -1,1 +1,1 @@
-var sys.io = util.cloneObject(ModuleProto);
+sys.io = util.cloneObject(ModuleProto);

@@ -1,1 +1,1 @@
-var sys.conf = util.cloneObject(ModuleProto);
+sys.conf = util.cloneObject(ModuleProto);

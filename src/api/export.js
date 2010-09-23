@@ -1,1 +1,1 @@
-return window['UE'] = api;
+return (window['UE'] = api);

@@ -1,1 +1,1 @@
-var sys.time = util.cloneObject(ModuleProto);
+sys.time = util.cloneObject(ModuleProto);

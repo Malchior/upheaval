@@ -19,21 +19,24 @@ DEPS_FILES = ${DEPS_DIR}/jquery.js
 SYS_DIR = ${SRC_DIR}/sys
 
 SYS_AUDIO_DIR = ${SYS_DIR}/audio
-SYS_AUDIO_FILES = ${SYS_AUDIO_DIR}/audio.js
+SYS_AUDIO_FILES = ${SYS_AUDIO_DIR}/init.js
 
 SYS_CONF_DIR = ${SYS_DIR}/conf
-SYS_CONF_FILES = ${SYS_CONF_DIR}/conf.js
+SYS_CONF_FILES = ${SYS_CONF_DIR}/init.js
 
 SYS_GRAPHICS_DIR = ${SYS_DIR}/graphics
-SYS_GRAPHICS_FILES = ${SYS_GRAPHICS_DIR}/builder.js
+SYS_GRAPHICS_FILES = ${SYS_GRAPHICS_DIR}/init.js\
+	${SYS_GRAPHICS_DIR}/builder.js
 
 SYS_IO_DIR = ${SYS_DIR}/io
-SYS_IO_FILES = ${SYS_IO_DIR}/ajax.js
+SYS_IO_FILES = ${SYS_IO_DIR}/init.js\
+	${SYS_IO_DIR}/ajax.js
 
 SYS_TIME_DIR = ${SYS_DIR}/time
-SYS_TIME_FILES = ${SYS_TIME_DIR}/time.js
+SYS_TIME_FILES = ${SYS_TIME_DIR}/init.js
 
-SYS_FILES = ${SYS_AUDIO_FILES}\
+SYS_FILES = ${SYS_DIR}/init.js\
+	${SYS_AUDIO_FILES}\
 	${SYS_CONF_FILES}\
 	${SYS_GRAPHICS_FILES}\
 	${SYS_IO_FILES}\
@@ -45,10 +48,12 @@ SUPPORT_DIR = ${ENGINE_DIR}/support
 SUPPORT_FILES = ${SUPPORT_DIR}/physics.js
 
 ENGINE_FILES = ${SUPPORT_FILES}\
+	${ENGINE_DIR}/init.js\
 	${ENGINE_DIR}/render.js
 
 API_DIR = ${SRC_DIR}/api
-API_FILES = ${API_DIR}/core.js
+API_FILES = ${API_DIR}/init.js\
+	${API_DIR}/export.js
 
 ALL_FILES = ${DEPS_FILES}\
 	${SRC_DIR}/header.js\
@@ -97,7 +102,7 @@ ${UPHEAVAL_MIN}: ${UPHEAVAL}
 	--warning_level QUIET \
 	--compilation_level $(strip ${comp_level}) \
 	--js_output_file ${UPHEAVAL_MIN}
-	@@echo "Done."
+	@@echo "Done."	
 
 clean:
 	@@echo "Removing dist dir:" ${DIST_DIR}

@@ -1,1 +1,1 @@
-var api.graphics = util.cloneObject(ModuleProto);
+sys.graphics = util.cloneObject(ModuleProto);

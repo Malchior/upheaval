@@ -17,7 +17,7 @@
 (function (window, undefined) {
 "use strict";
 var meta = {
-    'version': @VERSION
+    'version': '@VERSION'
 },
 util = {
     cloneObject : (typeof Object.create === 'function') ?
