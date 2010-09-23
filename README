@@ -2,8 +2,9 @@ Upheaval Game Engine
 
 'nuff said.
 
+Architecture diagram: (This probably isn't the optimal place to put it.)
  ----------------------------------------
-|                API                     |
+|                   API                  |
 |----------------------------------------|
 |  ---------                     |   C   |
 | |         |                    |   o   |
