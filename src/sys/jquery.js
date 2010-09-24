@@ -1,5 +1,5 @@
-/*!
- * jQuery JavaScript Library v1.4.2
+/**
+ * @preserve jQuery JavaScript Library v1.4.2
  * http://jquery.com/
  *
  * Copyright 2010, John Resig

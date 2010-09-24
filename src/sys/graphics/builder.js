@@ -104,14 +104,14 @@ sys.builder = new function () {
      * Creates multiple elements and appends them to the target
      * element. (A shortcut for polyBuild and insert)
      */
-    this.factory = function (defList, repeat, target, callback) {
+    this.factory = function (defList, repeat, callback) {
         var frag = document.createDocumentFragment();
         return (function worker(i) {
             if (i > 0) {
                 self.insert(frag, self.polyBuild(defList));
                 return worker(i - 1);
             }
-            return self.insert(target, frag, callback);
+            return (!!callback) ? callback(frag) : frag;
         }(repeat));
     };
 };

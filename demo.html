@@ -3,63 +3,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
         <title>Upheaval Demo</title>
-        <link rel="stylesheet" type="text/css" href="source/css/reset-min.css">
-        <link rel="stylesheet" href="source/css/core.css" />
-        <script src="source/engine.js"></script>
-        <script src="source/jquery.js"></script>
-        <script src="source/ext/builder.js"></script>
-        <style>
-.grass.tile {
-	background-image: url('tiles/iso/grass.png');
-}
-.white.tile {
-	background-image: url('tiles/iso/white.png');
-}
-.black.tile {
-	background-image: url('tiles/iso/black.png');
-}
-.tree1.object {
-	background-image: url('tiles/iso/tree1.png');
-	width: 143px; height: 198px;
-}
-        </style>
+        <link rel="stylesheet" href="css/reset-min.css" />
+        <link rel="stylesheet" href="css/core.css" />
+<!--        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>-->
+        <script src="dist/upheaval.js"></script>
         <script>
-        var do_it = function (x) {
-            var b = new Builder();
-            var el = b.build({
-                'tag': 'div',
-                'attrs':{'class': 'row'}
-            });
-            var s = b.factory([
-                    {
-                        'tag': 'div',
-                        'attrs': {
-                            'class': 'tile'
-                        }
-                    }
-                ], x, el
-            );
-            $(el).fadeIn('slow').appendTo('#playSurface');
-        }
         $(document).ready(function () {
-            $(document.body).click(function (e) {
-                if ($(e.srcElement).hasClass('tile')) {
-                    $(e.srcElement).next().fadeIn('slow').append('<div class="tree1 object"></div>');
-                }
-            });
-            var i = 0;
-            var hoyMoy = parseInt($('#playSurface').width() / 105),
-                hobWob = parseInt($('#playSurface').height() / 60);
+            var i = 0,
+                hoyMoy = parseInt($('#playSurface').width() / 105),
+                hobWob = parseInt($('#playSurface').height() / 60),
             intr = setInterval(function () {
                 if (i < hobWob * 2) {
                     (i % 2 === 0) ?
-                    do_it(hoyMoy + 1) :
-                    do_it(hoyMoy);
+                    UE.do_it(hoyMoy + 1) :
+                    UE.do_it(hoyMoy);
                 } else {
                     clearInterval(intr);
                 }
                 i += 1;
-            }, 30);
+            }, 0);
         });
         </script>
     </head>
