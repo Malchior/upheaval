@@ -1,16 +1,3 @@
 Upheaval Game Engine
 
 'nuff said.
-
-Architecture diagram: (This probably isn't the optimal place to put it.)
- ----------------------------------------
-|                   API                  |
-|----------------------------------------|
-|  ---------                     |   C   |
-| |         |                    |   o   |
-| | Support |       Engine       |   n   |
-| |         |                    |   s   |
-|  ---------                     |   o   |
-|--------------------------------|   l   |
-| Gph | Audo | I/O | Conf | Time |   e   |
- ----------------------------------------
